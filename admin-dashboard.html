@@ -1,0 +1,4248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Eventza</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .admin-name {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .club-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .club-stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .club-stat-card h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .club-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin: 10px 0;
+        }
+
+        .club-performance {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .performance-chart {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            height: 300px; /* Fixed height for charts */
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .club-details {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .club-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .club-info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .club-info-item h4 {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .club-info-item p {
+            margin: 5px 0 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .student-list {
+            margin-top: 20px;
+        }
+
+        .student-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-info h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .student-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .edit-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .income-overview {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .income-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .income-stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            transition: transform 0.2s;
+        }
+
+        .income-stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .income-stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin: 10px 0;
+        }
+
+        .income-chart-container {
+            height: 400px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .clubs-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .clubs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .clubs-title {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .clubs-description {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .clubs-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 5px;
+            background: #fff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .filter-tab.active {
+            background: #6c5ce7;
+            color: white;
+            border-color: #6c5ce7;
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .club-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .club-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .club-header {
+            margin-bottom: 15px;
+        }
+
+        .club-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .club-category {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .club-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .club-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-icon {
+            color: #6c5ce7;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .club-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-inactive {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .club-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .club-action-btn {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+        }
+
+        .view-details-btn {
+            background: #6c5ce7;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 50px auto;
+            padding: 25px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 24px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group label::after {
+            content: "*";
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+
+        .form-group label.optional::after {
+            content: "";
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #6c5ce7;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            background: #6c5ce7;
+            color: white;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Club Details View Styles */
+        .club-details-view {
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .club-details-left {
+            flex: 1;
+            min-width: 0; /* Prevents flex item from overflowing */
+        }
+
+        .club-details-right {
+            width: 500px;
+            flex-shrink: 0; /* Prevents right section from shrinking */
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            height: calc(100vh - 48px);
+            position: sticky;
+            top: 24px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .club-header {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .club-title-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .club-details-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .club-details-category {
+            color: #6B7280;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .club-status {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #7C3AED;
+            color: white;
+        }
+
+        .club-info-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .club-description {
+            color: #4B5563;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .club-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .club-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .meta-value {
+            font-size: 16px;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .club-contact {
+            margin-bottom: 24px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4B5563;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .contact-item i {
+            color: #7C3AED;
+            width: 20px;
+        }
+
+        .club-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .club-stat-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 600;
+            color: #7C3AED;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .achievements-section,
+        .events-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .achievements-section h3,
+        .events-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .achievements-section h3 i,
+        .events-section h3 i {
+            color: #7C3AED;
+        }
+
+        .achievement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #4B5563;
+            font-size: 15px;
+        }
+
+        .achievement-item i {
+            color: #10B981;
+            font-size: 16px;
+        }
+
+        .event-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .event-card {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .event-name {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin: 0 0 4px 0;
+        }
+
+        .event-date {
+            color: #6B7280;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Members Section Styles */
+        .members-section {
+            background: none;
+            padding: 0;
+            box-shadow: none;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .add-member-btn {
+            background-color: #7C3AED;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .add-member-btn:hover {
+            background-color: #6D28D9;
+        }
+
+        .add-member-btn i {
+            font-size: 16px;
+        }
+
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .member-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .member-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .member-list::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 3px;
+        }
+
+        .member-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .member-card:hover {
+            background-color: #f8f8f8;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            background-color: #7C3AED;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: white;
+            font-size: 16px;
+        }
+
+        .member-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .member-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .member-role {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #F3F4F6;
+            border-radius: 4px;
+            color: #4B5563;
+            font-size: 12px;
+            font-weight: 500;
+            margin: 4px 0;
+        }
+
+        .member-meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .member-meta span:not(:last-child)::after {
+            content: "•";
+            margin-left: 4px;
+            color: #D1D5DB;
+        }
+
+        .member-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .join-date {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .remove-member {
+            background: none;
+            border: none;
+            padding: 4px;
+            color: #EF4444;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-member:hover {
+            opacity: 1;
+            background: none;
+        }
+
+        .remove-member i {
+            font-size: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .edit-btn, .delete-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .edit-btn {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        /* Edit Club Modal Specific Styles */
+        .modal-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #f1f1f1;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #6c5ce7;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Updated Member Card Styles */
+        .member-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #6c5ce7;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .member-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .member-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .member-role {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #495057;
+            margin-bottom: 4px;
+        }
+
+        .member-meta {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .member-meta span {
+            margin-right: 8px;
+        }
+
+        .member-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .join-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .remove-member {
+            color: #dc3545;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Financial Section Styles */
+        .financial-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .financial-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1a1a1a;
+            font-size: 20px;
+            margin-bottom: 24px;
+        }
+
+        .financial-section h3 i {
+            color: #7C3AED;
+        }
+
+        .financial-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .financial-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .financial-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .financial-card.income .financial-icon {
+            background: #DEF7EC;
+            color: #059669;
+        }
+
+        .financial-card.expenses .financial-icon {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .financial-card.balance .financial-icon {
+            background: #E0E7FF;
+            color: #4F46E5;
+        }
+
+        .financial-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .financial-label {
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .financial-amount {
+            color: #1a1a1a;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .financial-chart-container {
+            height: 300px;
+            margin-bottom: 24px;
+        }
+
+        .transactions-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .transactions-section h4 {
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .transaction-filters {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .transaction-filters select {
+            padding: 8px 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #4B5563;
+            background: white;
+        }
+
+        .event-transactions {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .event-header h5 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .event-summary {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .event-summary .income {
+            color: #059669;
+        }
+
+        .event-summary .expenses {
+            color: #DC2626;
+        }
+
+        .event-summary .profit {
+            color: #4F46E5;
+        }
+
+        .transaction-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .transaction-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .transaction-type {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .transaction-meta {
+            display: flex;
+            gap: 12px;
+            color: #6B7280;
+            font-size: 13px;
+        }
+
+        .transaction-amount {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transaction-item.income .amount {
+            color: #059669;
+        }
+
+        .transaction-item.expense .amount {
+            color: #DC2626;
+        }
+
+        .delete-transaction {
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            opacity: 0.8;
+            padding: 4px;
+        }
+
+        .delete-transaction:hover {
+            opacity: 1;
+        }
+
+        .add-transaction-btn {
+            background: #7C3AED;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .add-transaction-btn:hover {
+            background: #6D28D9;
+        }
+
+        /* Add animation styles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .analytics-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .analytics-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .analytics-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .analytics-date-range {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .date-range-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: none;
+            color: #6B7280;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .date-range-btn.active {
+            background: #7C3AED;
+            color: white;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .analytics-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .analytics-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            flex: 1;
+            width: 100%;
+            min-height: 200px;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .analytics-card:nth-child(1) { animation: fadeIn 0.5s ease-out 0.1s forwards; }
+        .analytics-card:nth-child(2) { animation: fadeIn 0.5s ease-out 0.2s forwards; }
+        .analytics-card:nth-child(3) { animation: fadeIn 0.5s ease-out 0.3s forwards; }
+        .analytics-card:nth-child(4) { animation: fadeIn 0.5s ease-out 0.4s forwards; }
+
+        .analytics-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .analytics-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .analytics-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .analytics-card.users .analytics-card-icon {
+            background: #E0E7FF;
+            color: #4F46E5;
+        }
+
+        .analytics-card.events .analytics-card-icon {
+            background: #DEF7EC;
+            color: #059669;
+        }
+
+        .analytics-card.revenue .analytics-card-icon {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .analytics-card.activity .analytics-card-icon {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+
+        .analytics-chart-container {
+            height: 200px;
+            margin-top: 16px;
+        }
+
+        .analytics-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .metric-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .trend-up {
+            color: #059669;
+        }
+
+        .trend-down {
+            color: #DC2626;
+        }
+
+        .analytics-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .filter-select {
+            border: none;
+            background: none;
+            color: #1a1a1a;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+        }
+
+        .analytics-export {
+            padding: 8px 16px;
+            background: #7C3AED;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .analytics-export:hover {
+            background: #6D28D9;
+        }
+
+        .analytics-export i {
+            font-size: 16px;
+        }
+
+        /* Add animation to other sections */
+        .management-section {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .club-stats {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out 0.2s forwards;
+        }
+
+        .club-performance {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out 0.4s forwards;
+        }
+
+        .income-overview {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out 0.6s forwards;
+        }
+
+        .data-table {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out 0.8s forwards;
+        }
+
+        .settings-grid {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out 1s forwards;
+        }
+
+        /* Add hover animations */
+        .club-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .performance-chart:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .income-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.05);
+            transition: transform 0.2s;
+        }
+
+        .modal-content {
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        .member-card:hover {
+            transform: translateX(5px);
+            transition: transform 0.3s;
+        }
+
+        .transaction-item:hover {
+            transform: translateX(5px);
+            transition: transform 0.3s;
+        }
+
+        /* Analytics Section Styles */
+        .analytics-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .analytics-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .analytics-controls select {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #f8f9fa;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .analytics-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            height: 300px;
+        }
+
+        .analytics-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .chart-container {
+            position: relative;
+            height: calc(100% - 40px);
+            width: 100%;
+        }
+
+        /* Admin Access Panel Styles */
+        .admin-access-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .access-panel-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f5f5f5;
+            padding-bottom: 15px;
+        }
+
+        .access-panel-header h2 {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        .access-panel-header h2:before {
+            content: '\f509';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: #2196F3;
+            font-size: 1.3rem;
+        }
+
+        .access-panel-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .access-panel-content.active {
+            display: block;
+        }
+
+        .password-protection {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .password-protection:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .password-input {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-right: 10px;
+            width: 250px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .password-input:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+            outline: none;
+        }
+
+        .password-protection button {
+            background: #2196F3;
+            color: white;
+            padding: 12px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .password-protection button:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .user-management-form {
+            background: linear-gradient(to right, #f8f9fa, #f3f4f6);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+
+        .user-management-form h3 {
+            color: #333;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+
+        .user-management-form h3:before {
+            content: '\f234';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: #4CAF50;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+            outline: none;
+        }
+
+        .form-submit-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        .form-submit-btn:before {
+            content: '\f067';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+        .form-submit-btn:hover {
+            background: #43a047;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .users-table th, .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .users-table th {
+            background: linear-gradient(to right, #f5f7fa, #e4e7eb);
+            font-weight: 600;
+            color: #444;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .users-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .users-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .users-table tr:hover {
+            background-color: #f0f7ff;
+        }
+
+        .users-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .user-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .user-type-badge.club {
+            background-color: rgba(33, 150, 243, 0.15);
+            color: #1565c0;
+        }
+
+        .user-type-badge.club:before {
+            content: '\f0c0';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
+        .user-type-badge.faculty {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: #7b1fa2;
+        }
+
+        .user-type-badge.faculty:before {
+            content: '\f51c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
+        .action-btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .edit-btn {
+            background: #2196F3;
+            color: white;
+        }
+
+        .edit-btn:before {
+            content: '\f304';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
+        .delete-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .delete-btn:before {
+            content: '\f2ed';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
+        .toggle-panel-btn {
+            background: #673AB7;
+            color: white;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+        }
+
+        .toggle-panel-btn:before {
+            content: '\f07c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 8px;
+        }
+
+        .toggle-panel-btn:hover {
+            background: #5e35b1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://raw.githubusercontent.com/your-repo/eventza/main/assets/logo.png" alt="Eventza Admin" class="admin-logo">
+                <div class="admin-name">Eventza Admin</div>
+            </div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-club"></i>
+                    Club Management
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Event Management
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div>
+                        <div class="user-name">Admin User</div>
+                        <div class="user-role">System Administrator</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+
+            <!-- Clubs Section -->
+            <div class="clubs-section">
+                <div class="clubs-header">
+                    <div>
+                        <h2 class="clubs-title">Clubs</h2>
+                        <p class="clubs-description">Browse and manage college clubs</p>
+                    </div>
+                    <button class="add-btn" onclick="showAddClubModal()">
+                        <i class="fas fa-plus"></i>
+                        Create Club
+                    </button>
+                </div>
+
+                <div class="clubs-filters">
+                    <input type="text" class="search-box" placeholder="Search clubs...">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active">All</button>
+                        <button class="filter-tab">Active</button>
+                        <button class="filter-tab">Inactive</button>
+                    </div>
+                </div>
+
+                <div class="clubs-grid">
+                    <!-- Computer Science Club -->
+                    <div class="club-card">
+                        <div class="club-header">
+                            <h3 class="club-name">Computer Science Club</h3>
+                            <p class="club-category">Technical</p>
+                        </div>
+                        <p>A club dedicated to exploring the world of computing, programming, and technology...</p>
+                        <div class="club-stats">
+                            <div class="club-stat">
+                                <i class="fas fa-users stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">45</div>
+                                    <div class="stat-label">members</div>
+                                </div>
+                            </div>
+                            <div class="club-stat">
+                                <i class="fas fa-calendar stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">12</div>
+                                    <div class="stat-label">events</div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="club-status status-active">Active</span>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-details-btn" onclick="viewClubDetails(this)">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cultural Club -->
+                    <div class="club-card">
+                        <div class="club-header">
+                            <h3 class="club-name">Cultural Club</h3>
+                            <p class="club-category">Cultural</p>
+                        </div>
+                        <p>Celebrating diversity through art, music, dance, and cultural events. We promote...</p>
+                        <div class="club-stats">
+                            <div class="club-stat">
+                                <i class="fas fa-users stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">60</div>
+                                    <div class="stat-label">members</div>
+                                </div>
+                            </div>
+                            <div class="club-stat">
+                                <i class="fas fa-calendar stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">8</div>
+                                    <div class="stat-label">events</div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="club-status status-active">Active</span>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-details-btn" onclick="viewClubDetails(this)">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Debate Club -->
+                    <div class="club-card">
+                        <div class="club-header">
+                            <h3 class="club-name">Debate Club</h3>
+                            <p class="club-category">Academic</p>
+                        </div>
+                        <p>Enhancing critical thinking and public speaking skills through debates. We...</p>
+                        <div class="club-stats">
+                            <div class="club-stat">
+                                <i class="fas fa-users stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">members</div>
+                                </div>
+                            </div>
+                            <div class="club-stat">
+                                <i class="fas fa-calendar stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">6</div>
+                                    <div class="stat-label">events</div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="club-status status-active">Active</span>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-details-btn" onclick="viewClubDetails(this)">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Photography Club -->
+                    <div class="club-card">
+                        <div class="club-header">
+                            <h3 class="club-name">Photography Club</h3>
+                            <p class="club-category">Arts</p>
+                        </div>
+                        <p>Exploring the art of photography and visual storytelling. We conduct photography...</p>
+                        <div class="club-stats">
+                            <div class="club-stat">
+                                <i class="fas fa-users stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">25</div>
+                                    <div class="stat-label">members</div>
+                                </div>
+                            </div>
+                            <div class="club-stat">
+                                <i class="fas fa-calendar stat-icon"></i>
+                                <div>
+                                    <div class="stat-value">4</div>
+                                    <div class="stat-label">events</div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="club-status status-inactive">Inactive</span>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-details-btn" onclick="viewClubDetails(this)">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club Overview Section -->
+            <div class="management-section">
+                <div class="section-header">
+                    <h2 class="section-title">Club Overview</h2>
+                    <button class="add-btn" onclick="showAddClubModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Club
+                    </button>
+                </div>
+                
+                <div class="club-stats">
+                    <div class="club-stat-card">
+                        <h3>Total Clubs</h3>
+                        <div class="club-stat-value">12</div>
+                        <div class="club-stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+2 this month</span>
+                        </div>
+                    </div>
+                    <div class="club-stat-card">
+                        <h3>Active Events</h3>
+                        <div class="club-stat-value">8</div>
+                        <div class="club-stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+3 this week</span>
+                        </div>
+                    </div>
+                    <div class="club-stat-card">
+                        <h3>Total Members</h3>
+                        <div class="club-stat-value">1,245</div>
+                        <div class="club-stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+45 this month</span>
+                        </div>
+                    </div>
+                    <div class="club-stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="club-stat-value">₹45,500</div>
+                        <div class="club-stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>+₹5,500 this month</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Club Performance Section -->
+                <div class="club-performance">
+                    <h3>Club Performance</h3>
+                    <div class="performance-grid">
+                        <div class="performance-chart">
+                            <h4>Member Growth</h4>
+                            <canvas id="memberGrowthChart"></canvas>
+                        </div>
+                        <div class="performance-chart">
+                            <h4>Event Participation</h4>
+                            <canvas id="eventParticipationChart"></canvas>
+                    </div>
+                        <div class="performance-chart">
+                            <h4>Revenue Trends</h4>
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Management Section -->
+            <div class="management-section">
+                <div class="section-header">
+                    <h2 class="section-title">Event Management</h2>
+                    <button class="add-btn" onclick="showAddEventModal()">
+                        <i class="fas fa-plus"></i>
+                        Add New Event
+                    </button>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Club</th>
+                            <th>Date</th>
+                            <th>Venue</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTableBody">
+                        <!-- Events will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Admin Access Panel Section -->
+            <div class="admin-access-panel">
+                <div class="access-panel-header">
+                    <h2>Admin Access Panel</h2>
+                </div>
+                
+                <div class="password-protection">
+                    <input type="password" id="adminPassword" class="password-input" placeholder="Enter Admin Password (Shashank@5)">
+                    <button class="action-btn" onclick="verifyAdminPassword()">Access Panel</button>
+                </div>
+
+                <div class="access-panel-content" id="accessPanelContent">
+                    <div class="user-management-form">
+                        <h3>Add New User</h3>
+                        <form id="userForm" onsubmit="return handleUserSubmit(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="userType">User Type</label>
+                                    <select id="userType" required>
+                                        <option value="club">Club Member</option>
+                                        <option value="faculty">Faculty</option>
+                        </select>
+                    </div>
+                                <div class="form-group">
+                                    <label for="userId">User ID</label>
+                                    <input type="text" id="userId" required placeholder="e.g., club123, faculty456">
+                </div>
+                    </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="userName">Full Name</label>
+                                    <input type="text" id="userName" required placeholder="Enter full name">
+                    </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email</label>
+                                    <input type="email" id="userEmail" required placeholder="email@example.com">
+                    </div>
+                    </div>
+                            <div class="form-group">
+                                <label for="userPassword">Password</label>
+                                <input type="password" id="userPassword" required placeholder="Create a strong password">
+                            </div>
+                            <button type="submit" class="form-submit-btn">Add User</button>
+                        </form>
+                    </div>
+
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>User Type</th>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="management-section">
+                <div class="section-header">
+                    <h2 class="section-title">Settings</h2>
+                </div>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>System Settings</h3>
+                        <form id="systemSettingsForm">
+                            <div class="form-group">
+                                <label for="siteName">Site Name</label>
+                                <input type="text" id="siteName" value="Eventza">
+                            </div>
+                            <div class="form-group">
+                                <label for="adminEmail">Admin Email</label>
+                                <input type="email" id="adminEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="timezone">Timezone</label>
+                                <select id="timezone">
+                                    <option value="UTC">UTC</option>
+                                    <option value="IST">IST</option>
+                                    <option value="EST">EST</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="submit-btn">Save System Settings</button>
+                        </form>
+                    </div>
+                    <div class="settings-card">
+                        <h3>Notification Settings</h3>
+                        <form id="notificationSettingsForm">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="emailNotifications" checked>
+                                    Email Notifications
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="eventReminders" checked>
+                                    Event Reminders
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="systemAlerts" checked>
+                                    System Alerts
+                                </label>
+                            </div>
+                            <button type="submit" class="submit-btn">Save Notification Settings</button>
+                        </form>
+                    </div>
+                    <div class="settings-card">
+                        <h3>Security Settings</h3>
+                        <form id="securitySettingsForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" id="confirmPassword">
+                            </div>
+                            <button type="submit" class="submit-btn">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Club Details View -->
+            <div id="clubDetailsView" class="club-details-view">
+                <div class="club-details-left">
+                    <button class="back-button" onclick="backToClubs()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to All Clubs
+                    </button>
+
+                    <div class="club-header">
+                        <div class="club-title-section">
+                            <h2 class="club-details-title">Computer Science Club</h2>
+                            <p class="club-details-category">Technical</p>
+                            <span class="club-status status-active">Active</span>
+                        </div>
+                    </div>
+
+                    <div class="club-info-section">
+                        <h3>Description</h3>
+                        <p class="club-description">A club dedicated to exploring the world of computing, programming, and technology. We organize coding competitions, workshops, and guest lectures to enhance technical skills.</p>
+
+                        <div class="club-meta">
+                            <div class="club-meta-item">
+                                <span class="meta-label">Founded</span>
+                                <span class="meta-value">2018</span>
+                            </div>
+                            <div class="club-meta-item">
+                                <span class="meta-label">President</span>
+                                <span class="meta-value">John Doe</span>
+                            </div>
+                        </div>
+
+                        <div class="club-contact">
+                            <h3>Contact</h3>
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>cs.club@college.edu</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>+91 9876543210</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <a href="#" class="website-link">Website</a>
+                            </div>
+                        </div>
+
+                        <div class="club-stats-grid">
+                            <div class="club-stat-box">
+                                <div class="stat-number">45</div>
+                                <div class="stat-label">Members</div>
+                            </div>
+                            <div class="club-stat-box">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Events</div>
+                            </div>
+                        </div>
+
+                        <div class="achievements-section">
+                            <h3>
+                                <i class="fas fa-trophy achievement-icon"></i>
+                                Achievements
+                            </h3>
+                            <div class="achievement-list">
+                                <div class="achievement-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Winner of Inter-College Hackathon 2023</span>
+                                </div>
+                                <div class="achievement-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Best Technical Club Award 2022</span>
+                                </div>
+                                <div class="achievement-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Organized successful AI Workshop series</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="events-section">
+                            <h3>
+                                <i class="fas fa-calendar"></i>
+                                Upcoming Events
+                            </h3>
+                            <div class="event-list">
+                                <div class="event-card">
+                                    <h4 class="event-name">Code Sprint 2025</h4>
+                                    <p class="event-date">15 Jul 2025</p>
+                                </div>
+                                <div class="event-card">
+                                    <h4 class="event-name">Web Dev Workshop</h4>
+                                    <p class="event-date">28 Jun 2025</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="edit-btn" onclick="editClub()">
+                                <i class="fas fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="delete-btn" onclick="deleteClub()">
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Club Members Section -->
+                <div class="club-details-right">
+                    <div class="members-section">
+                        <div class="section-header">
+                            <h2>Club Members</h2>
+                            <button class="add-member-btn" onclick="showAddMemberModal()">
+                                <i class="fas fa-user-plus"></i>
+                                Add Member
+                            </button>
+                        </div>
+
+                        <div class="member-list">
+                            <!-- President -->
+                            <div class="member-card">
+                                <div class="member-info">
+                                    <div class="member-avatar">JD</div>
+                                    <div class="member-details">
+                                        <h4 class="member-name">John Doe</h4>
+                                        <span class="member-role">President</span>
+                                        <div class="member-meta">
+                                            <span>john@college.edu</span>
+                                            <span>Computer Science</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <span class="join-date">Joined 15 Jan 2023</span>
+                                    <button class="remove-member" onclick="removeMember('john-doe')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vice President -->
+                            <div class="member-card">
+                                <div class="member-info">
+                                    <div class="member-avatar">JS</div>
+                                    <div class="member-details">
+                                        <h4 class="member-name">Jane Smith</h4>
+                                        <span class="member-role">Vice President</span>
+                                        <div class="member-meta">
+                                            <span>jane@college.edu</span>
+                                            <span>Information Technology</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <span class="join-date">Joined 20 Jan 2023</span>
+                                    <button class="remove-member" onclick="removeMember('jane-smith')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Treasurer -->
+                            <div class="member-card">
+                                <div class="member-info">
+                                    <div class="member-avatar">RJ</div>
+                                    <div class="member-details">
+                                        <h4 class="member-name">Robert Johnson</h4>
+                                        <span class="member-role">Treasurer</span>
+                                        <div class="member-meta">
+                                            <span>robert@college.edu</span>
+                                            <span>Electronics</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <span class="join-date">Joined 10 Feb 2023</span>
+                                    <button class="remove-member" onclick="removeMember('robert-johnson')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Secretary -->
+                            <div class="member-card">
+                                <div class="member-info">
+                                    <div class="member-avatar">EW</div>
+                                    <div class="member-details">
+                                        <h4 class="member-name">Emily Wilson</h4>
+                                        <span class="member-role">Secretary</span>
+                                        <div class="member-meta">
+                                            <span>emily@college.edu</span>
+                                            <span>Computer Science</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <span class="join-date">Joined 5 Mar 2023</span>
+                                    <button class="remove-member" onclick="removeMember('emily-wilson')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Regular Member -->
+                            <div class="member-card">
+                                <div class="member-info">
+                                    <div class="member-avatar">MB</div>
+                                    <div class="member-details">
+                                        <h4 class="member-name">Michael Brown</h4>
+                                        <span class="member-role">Member</span>
+                                        <div class="member-meta">
+                                            <span>michael@college.edu</span>
+                                            <span>Mechanical</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="member-actions">
+                                    <span class="join-date">Joined 15 Apr 2023</span>
+                                    <button class="remove-member" onclick="removeMember('michael-brown')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('addUserModal')">&times;</span>
+            <h2>Add New User</h2>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="userName">Full Name</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="userRole">Role</label>
+                    <select id="userRole" required>
+                        <option value="">Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="club_member">Club Member</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Password</label>
+                    <input type="password" id="userPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Add User</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Club Modal -->
+    <div id="addClubModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('addClubModal')">&times;</span>
+            <h2 class="modal-title">Create New Club</h2>
+            <p class="modal-subtitle">Fill in the details to create a new club. Click save when you're done.</p>
+            
+            <form id="addClubForm" onsubmit="handleCreateClub(event)">
+                <div class="form-group">
+                    <label for="clubName">Club Name</label>
+                    <input type="text" id="clubName" name="clubName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="clubCategory">Category</label>
+                    <select id="clubCategory" name="clubCategory" required>
+                        <option value="">Select category</option>
+                        <option value="technical">Technical</option>
+                        <option value="cultural">Cultural</option>
+                        <option value="sports">Sports</option>
+                        <option value="academic">Academic</option>
+                        <option value="arts">Arts</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="clubDescription">Description</label>
+                    <textarea id="clubDescription" name="clubDescription" placeholder="Provide details about the club" required></textarea>
+                </div>
+
+                <div class="form-row">
+                <div class="form-group">
+                        <label for="foundedYear">Founded Year</label>
+                        <input type="number" id="foundedYear" name="foundedYear" min="1900" max="2099" required>
+                </div>
+
+                <div class="form-group">
+                        <label for="clubPresident">President</label>
+                        <input type="text" id="clubPresident" name="clubPresident" required>
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email</label>
+                    <input type="email" id="contactEmail" name="contactEmail" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal('addClubModal')">Cancel</button>
+                    <button type="submit" class="submit-btn">Create Club</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div id="addEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('addEventModal')">&times;</span>
+            <h2>Add New Event</h2>
+            <form id="addEventForm">
+                <div class="form-group">
+                    <label for="eventName">Event Name</label>
+                    <input type="text" id="eventName" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventClub">Club</label>
+                    <select id="eventClub" required>
+                        <option value="">Select Club</option>
+                        <!-- Clubs will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Date and Time</label>
+                    <input type="datetime-local" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventVenue">Venue</label>
+                    <input type="text" id="eventVenue" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description</label>
+                    <textarea id="eventDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="eventCapacity">Maximum Participants</label>
+                    <input type="number" id="eventCapacity" required>
+                </div>
+                <button type="submit" class="submit-btn">Add Event</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Club Modal -->
+    <div id="editClubModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('editClubModal')">&times;</span>
+            <h2 class="modal-title">Edit Club</h2>
+            <p class="modal-subtitle">Update the details of <span class="club-name-display"></span>.</p>
+            
+            <form id="editClubForm" onsubmit="handleEditClub(event)">
+                <div class="form-group">
+                    <label for="editClubName">Club Name</label>
+                    <input type="text" id="editClubName" name="clubName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea id="editDescription" name="description" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editStatus">Status</label>
+                    <select id="editStatus" name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editPresident">President</label>
+                    <input type="text" id="editPresident" name="president" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editContactEmail">Contact Email</label>
+                    <input type="email" id="editContactEmail" name="contactEmail" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal('editClubModal')">Cancel</button>
+                    <button type="submit" class="submit-btn">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="addMemberModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('addMemberModal')">&times;</span>
+            <h2 class="modal-title">Add New Member</h2>
+            <p class="modal-subtitle">Fill in the member details below.</p>
+            
+            <form id="addMemberForm" onsubmit="handleAddMember(event)">
+                <div class="form-group">
+                    <label for="memberName">Full Name</label>
+                    <input type="text" id="memberName" name="memberName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="memberRole">Role</label>
+                    <select id="memberRole" name="memberRole" required>
+                        <option value="">Select role</option>
+                        <option value="President">President</option>
+                        <option value="Vice President">Vice President</option>
+                        <option value="Treasurer">Treasurer</option>
+                        <option value="Secretary">Secretary</option>
+                        <option value="Member">Member</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="memberEmail">Email</label>
+                    <input type="email" id="memberEmail" name="memberEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="memberDepartment">Department</label>
+                    <input type="text" id="memberDepartment" name="memberDepartment" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal('addMemberModal')">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="addTransactionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('addTransactionModal')">&times;</span>
+            <h2 class="modal-title">Add Transaction</h2>
+            <p class="modal-subtitle">Record a new financial transaction</p>
+            
+            <form id="addTransactionForm" onsubmit="handleAddTransaction(event)">
+                <div class="form-group">
+                    <label for="transactionEvent">Event</label>
+                    <select id="transactionEvent" name="event" required>
+                        <option value="">Select event</option>
+                        <option value="code-sprint-2025">Code Sprint 2025</option>
+                        <option value="web-dev-workshop">Web Dev Workshop</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionType">Type</label>
+                    <select id="transactionType" name="type" required>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionDescription">Description</label>
+                    <input type="text" id="transactionDescription" name="description" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionCategory">Category</label>
+                    <select id="transactionCategory" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="event-income">Event Income</option>
+                        <option value="venue">Venue</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="food">Food & Beverages</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionAmount">Amount (₹)</label>
+                    <input type="number" id="transactionAmount" name="amount" min="0" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionDate">Date</label>
+                    <input type="date" id="transactionDate" name="date" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeModal('addTransactionModal')">Cancel</button>
+                    <button type="submit" class="submit-btn">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    <script>
+        // Initialize charts
+        function initializeCharts() {
+            // Member Growth Chart
+            const memberGrowthCtx = document.getElementById('memberGrowthChart').getContext('2d');
+            new Chart(memberGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Member Growth',
+                        data: [65, 78, 90, 105, 120, 145],
+                        borderColor: '#2196F3',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+
+            // Event Participation Chart
+            const eventParticipationCtx = document.getElementById('eventParticipationChart').getContext('2d');
+            new Chart(eventParticipationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sports', 'Cultural', 'Technical', 'Academic'],
+                    datasets: [{
+                        label: 'Events',
+                        data: [12, 8, 6, 4],
+                        backgroundColor: '#4CAF50'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Event Registration', 'Membership Fees', 'Sponsorships', 'Other'],
+                    datasets: [{
+                        data: [45, 25, 20, 10],
+                        backgroundColor: [
+                            '#2196F3',
+                            '#4CAF50',
+                            '#FFC107',
+                            '#9C27B0'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${context.label}: ₹${value.toLocaleString()} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Income Chart
+            const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+            new Chart(incomeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Total Income',
+                        data: [25000, 30000, 35000, 40000, 42500, 45500],
+                        borderColor: '#2196F3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Completed Payments',
+                        data: [20000, 25000, 30000, 35000, 38000, 38000],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Pending Payments',
+                        data: [5000, 5000, 5000, 5000, 4500, 7500],
+                        borderColor: '#FF9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize charts when the page loads
+        document.addEventListener('DOMContentLoaded', initializeCharts);
+
+        // Club management functions
+        function showAddClubModal() {
+            document.getElementById('addClubModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Student management functions
+        function viewStudent(studentId) {
+            // Implement student view functionality
+            console.log('Viewing student:', studentId);
+        }
+
+        function editStudent(studentId) {
+            // Implement student edit functionality
+            console.log('Editing student:', studentId);
+        }
+
+        function deleteStudent(studentId) {
+            // Implement student delete functionality
+            console.log('Deleting student:', studentId);
+        }
+
+        // Form submission handlers
+        document.getElementById('addClubForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Implement club creation functionality
+            console.log('Creating new club...');
+            closeModal('addClubModal');
+        });
+
+        // Club filter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.querySelector('.search-box');
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const clubCards = document.querySelectorAll('.club-card');
+
+            // Search functionality
+            searchBox.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                clubCards.forEach(card => {
+                    const clubName = card.querySelector('.club-name').textContent.toLowerCase();
+                    const clubCategory = card.querySelector('.club-category').textContent.toLowerCase();
+                    const shouldShow = clubName.includes(searchTerm) || clubCategory.includes(searchTerm);
+                    card.style.display = shouldShow ? 'block' : 'none';
+                });
+            });
+
+            // Filter tabs functionality
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+
+                    const filter = this.textContent.toLowerCase();
+                    clubCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const status = card.querySelector('.club-status').textContent.toLowerCase();
+                            card.style.display = status === filter ? 'block' : 'none';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Club management functions
+        function handleCreateClub(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                clubName: document.getElementById('clubName').value,
+                category: document.getElementById('clubCategory').value,
+                description: document.getElementById('clubDescription').value,
+                foundedYear: document.getElementById('foundedYear').value,
+                president: document.getElementById('clubPresident').value,
+                contactEmail: document.getElementById('contactEmail').value
+            };
+
+            // Validate form data
+            if (!formData.clubName || !formData.category || !formData.description || 
+                !formData.foundedYear || !formData.president || !formData.contactEmail) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Here you would typically send this data to your backend
+            console.log('Creating new club:', formData);
+
+            // Create a new club card
+            const clubsGrid = document.querySelector('.clubs-grid');
+            const newClubCard = document.createElement('div');
+            newClubCard.className = 'club-card';
+            newClubCard.innerHTML = `
+                <div class="club-header">
+                    <h3 class="club-name">${formData.clubName}</h3>
+                    <p class="club-category">${formData.category}</p>
+                </div>
+                <p>${formData.description}</p>
+                <div class="club-stats">
+                    <div class="club-stat">
+                        <i class="fas fa-users stat-icon"></i>
+                        <div>
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">members</div>
+                        </div>
+                    </div>
+                    <div class="club-stat">
+                        <i class="fas fa-calendar stat-icon"></i>
+                        <div>
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">events</div>
+                        </div>
+                    </div>
+                </div>
+                <span class="club-status status-active">Active</span>
+                <div class="club-actions">
+                    <button class="club-action-btn view-details-btn" onclick="viewClubDetails(this)">
+                        View Details
+                    </button>
+                </div>
+            `;
+            clubsGrid.insertBefore(newClubCard, clubsGrid.firstChild);
+
+            // Reset form and close modal
+            document.getElementById('addClubForm').reset();
+            closeModal('addClubModal');
+        }
+
+        // Club details view functions
+        function viewClubDetails(button) {
+            // Hide the entire dashboard container
+            document.querySelector('.dashboard-container').style.display = 'none';
+            
+            // Show only the details view
+            const detailsView = document.getElementById('clubDetailsView');
+            detailsView.style.display = 'block';
+            // Move details view to body
+            document.body.appendChild(detailsView);
+
+            // Get the club card that was clicked
+            const clubCard = button.closest('.club-card');
+            if (clubCard) {
+                const clubName = clubCard.querySelector('.club-name').textContent;
+                const clubCategory = clubCard.querySelector('.club-category').textContent;
+                const clubDescription = clubCard.querySelector('p').textContent;
+                const memberCount = clubCard.querySelector('.club-stat:first-child .stat-value').textContent;
+                const eventCount = clubCard.querySelector('.club-stat:last-child .stat-value').textContent;
+                const status = clubCard.querySelector('.club-status').textContent;
+
+                // Store the club card reference for delete operation
+                detailsView.setAttribute('data-club-id', clubCard.id || Date.now().toString());
+                clubCard.id = detailsView.getAttribute('data-club-id');
+
+                // Update the details view with the club's data
+                detailsView.querySelector('.club-details-title').textContent = clubName;
+                detailsView.querySelector('.club-details-category').textContent = clubCategory;
+                detailsView.querySelector('.club-description').textContent = clubDescription;
+                detailsView.querySelector('.club-status').textContent = status;
+                detailsView.querySelector('.club-status').className = `club-status ${status.toLowerCase() === 'active' ? 'status-active' : 'status-inactive'}`;
+                
+                // Update stats
+                const statBoxes = detailsView.querySelectorAll('.club-stat-box');
+                statBoxes[0].querySelector('.stat-number').textContent = memberCount;
+                statBoxes[1].querySelector('.stat-number').textContent = eventCount;
+
+                // Scroll to top of the details view
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function backToClubs() {
+            // Get the details view
+            const detailsView = document.getElementById('clubDetailsView');
+            
+            // Move details view back to dashboard container
+            const dashboardContainer = document.querySelector('.dashboard-container');
+            dashboardContainer.appendChild(detailsView);
+            
+            // Hide details view
+            detailsView.style.display = 'none';
+            
+            // Show dashboard container
+            dashboardContainer.style.display = 'flex';
+
+            // Scroll to clubs section
+            document.querySelector('.clubs-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteClub() {
+            const detailsView = document.getElementById('clubDetailsView');
+            const clubId = detailsView.getAttribute('data-club-id');
+            
+            if (confirm('Are you sure you want to delete this club? This action cannot be undone.')) {
+                // Find and remove the club card from the grid
+                const clubCard = document.getElementById(clubId);
+                if (clubCard) {
+                    clubCard.remove();
+                }
+
+                // Go back to clubs view
+                backToClubs();
+
+                // Show success message
+                const successMessage = document.createElement('div');
+                successMessage.className = 'alert alert-success';
+                successMessage.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 25px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border-radius: 4px;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    z-index: 1000;
+                `;
+                successMessage.textContent = 'Club deleted successfully';
+                document.body.appendChild(successMessage);
+
+                // Remove the success message after 3 seconds
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 3000);
+            }
+        }
+
+        function showAddMemberModal() {
+            document.getElementById('addMemberModal').style.display = 'block';
+        }
+
+        function getInitials(name) {
+            return name.split(' ')
+                .map(word => word[0])
+                .join('')
+                .toUpperCase();
+        }
+
+        function formatDate(date) {
+            return new Date().toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric'
+            });
+        }
+
+        function handleAddMember(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('memberName').value,
+                role: document.getElementById('memberRole').value,
+                email: document.getElementById('memberEmail').value,
+                department: document.getElementById('memberDepartment').value,
+                joinDate: formatDate(new Date())
+            };
+
+            // Create new member card
+            const memberList = document.querySelector('.member-list');
+            const newMemberId = 'member-' + Date.now();
+            const memberCard = document.createElement('div');
+            memberCard.className = 'member-card';
+            memberCard.id = newMemberId;
+            memberCard.innerHTML = `
+                <div class="member-info">
+                    <div class="member-avatar">${getInitials(formData.name)}</div>
+                    <div class="member-details">
+                        <h4 class="member-name">${formData.name}</h4>
+                        <span class="member-role">${formData.role}</span>
+                        <div class="member-meta">
+                            <span>${formData.email}</span>
+                            <span>${formData.department}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="member-actions">
+                    <span class="join-date">Joined ${formData.joinDate}</span>
+                    <button class="remove-member" onclick="removeMember('${newMemberId}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+
+            // Add the new member card to the list
+            memberList.insertBefore(memberCard, memberList.firstChild);
+
+            // Reset form and close modal
+            document.getElementById('addMemberForm').reset();
+            closeModal('addMemberModal');
+
+            // Show success message
+            showNotification('Member added successfully');
+        }
+
+        function removeMember(memberId) {
+            if (confirm('Are you sure you want to remove this member?')) {
+                const memberCard = document.getElementById(memberId);
+                if (memberCard) {
+                    memberCard.remove();
+                    showNotification('Member removed successfully');
+                }
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-success';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function editClub() {
+            const detailsView = document.getElementById('clubDetailsView');
+            const modal = document.getElementById('editClubModal');
+            
+            // Get current club data
+            const clubName = detailsView.querySelector('.club-details-title').textContent;
+            const description = detailsView.querySelector('.club-description').textContent;
+            const status = detailsView.querySelector('.club-status').textContent.toLowerCase();
+            const president = detailsView.querySelector('.meta-value').textContent;
+            const email = detailsView.querySelector('.contact-item span').textContent;
+
+            // Populate form
+            document.getElementById('editClubName').value = clubName;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editStatus').value = status;
+            document.getElementById('editPresident').value = president;
+            document.getElementById('editContactEmail').value = email;
+
+            // Update modal subtitle
+            modal.querySelector('.club-name-display').textContent = clubName;
+
+            // Show modal
+            modal.style.display = 'block';
+        }
+
+        function handleEditClub(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                clubName: document.getElementById('editClubName').value,
+                description: document.getElementById('editDescription').value,
+                status: document.getElementById('editStatus').value,
+                president: document.getElementById('editPresident').value,
+                contactEmail: document.getElementById('editContactEmail').value
+            };
+
+            // Update club details view
+            const detailsView = document.getElementById('clubDetailsView');
+            detailsView.querySelector('.club-details-title').textContent = formData.clubName;
+            detailsView.querySelector('.club-description').textContent = formData.description;
+            detailsView.querySelector('.club-status').textContent = formData.status.charAt(0).toUpperCase() + formData.status.slice(1);
+            detailsView.querySelector('.club-status').className = `club-status status-${formData.status}`;
+            detailsView.querySelector('.meta-value').textContent = formData.president;
+            detailsView.querySelector('.contact-item span').textContent = formData.contactEmail;
+
+            // Close modal
+            closeModal('editClubModal');
+
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.className = 'alert alert-success';
+            successMessage.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 1000;
+            `;
+            successMessage.textContent = 'Club details updated successfully';
+            document.body.appendChild(successMessage);
+
+            // Remove success message after 3 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+        }
+
+        // Add these functions to your existing JavaScript
+
+        function showAddTransactionModal() {
+            document.getElementById('addTransactionModal').style.display = 'block';
+        }
+
+        function handleAddTransaction(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = {
+                event: document.getElementById('transactionEvent').value,
+                type: document.getElementById('transactionType').value,
+                description: document.getElementById('transactionDescription').value,
+                category: document.getElementById('transactionCategory').value,
+                amount: document.getElementById('transactionAmount').value,
+                date: document.getElementById('transactionDate').value
+            };
+
+            // Create new transaction element
+            const transactionId = 'transaction-' + Date.now();
+            const transactionItem = document.createElement('div');
+            transactionItem.className = `transaction-item ${formData.type}`;
+            transactionItem.id = transactionId;
+            
+            const amountPrefix = formData.type === 'income' ? '+' : '-';
+            
+            transactionItem.innerHTML = `
+                <div class="transaction-info">
+                    <div class="transaction-type">
+                        <i class="fas fa-arrow-${formData.type === 'income' ? 'down' : 'up'}"></i>
+                        <span>${formData.description}</span>
+                    </div>
+                    <div class="transaction-meta">
+                        <span class="date">${new Date(formData.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span class="category">${formData.category}</span>
+                    </div>
+                </div>
+                <div class="transaction-amount">
+                    <span class="amount">${amountPrefix}₹${formData.amount}</span>
+                    <button class="delete-transaction" onclick="deleteTransaction('${transactionId}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+
+            // Find the correct event section and add the transaction
+            const eventTransactions = document.querySelector(`.event-transactions:has(h5:contains('${formData.event}')) .transaction-items`);
+            if (eventTransactions) {
+                eventTransactions.insertBefore(transactionItem, eventTransactions.firstChild);
+                updateEventSummary(formData.event);
+            }
+
+            // Reset form and close modal
+            document.getElementById('addTransactionForm').reset();
+            closeModal('addTransactionModal');
+            
+            // Show success message
+            showNotification('Transaction added successfully');
+        }
+
+        function deleteTransaction(transactionId) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                const transaction = document.getElementById(transactionId);
+                const eventTransactions = transaction.closest('.event-transactions');
+                transaction.remove();
+                
+                if (eventTransactions) {
+                    const eventName = eventTransactions.querySelector('h5').textContent;
+                    updateEventSummary(eventName);
+                }
+                
+                showNotification('Transaction deleted successfully');
+            }
+        }
+
+        function updateEventSummary(eventName) {
+            const eventSection = document.querySelector(`.event-transactions:has(h5:contains('${eventName}'))`);
+            if (!eventSection) return;
+
+            let income = 0;
+            let expenses = 0;
+
+            // Calculate totals
+            eventSection.querySelectorAll('.transaction-item').forEach(item => {
+                const amount = parseInt(item.querySelector('.amount').textContent.replace(/[^0-9-]/g, ''));
+                if (item.classList.contains('income')) {
+                    income += amount;
+                } else {
+                    expenses += Math.abs(amount);
+                }
+            });
+
+            // Update summary
+            const summary = eventSection.querySelector('.event-summary');
+            summary.innerHTML = `
+                <span class="income">Income: ₹${income}</span>
+                <span class="expenses">Expenses: ₹${expenses}</span>
+                <span class="profit">Net: ₹${income - expenses}</span>
+            `;
+
+            updateFinancialSummary();
+        }
+
+        function updateFinancialSummary() {
+            let totalIncome = 0;
+            let totalExpenses = 0;
+
+            // Calculate totals from all transactions
+            document.querySelectorAll('.transaction-item').forEach(item => {
+                const amount = parseInt(item.querySelector('.amount').textContent.replace(/[^0-9-]/g, ''));
+                if (item.classList.contains('income')) {
+                    totalIncome += amount;
+                } else {
+                    totalExpenses += Math.abs(amount);
+                }
+            });
+
+            // Update summary cards
+            document.querySelector('.financial-card.income .financial-amount').textContent = `₹${totalIncome}`;
+            document.querySelector('.financial-card.expenses .financial-amount').textContent = `₹${totalExpenses}`;
+            document.querySelector('.financial-card.balance .financial-amount').textContent = `₹${totalIncome - totalExpenses}`;
+
+            // Update chart
+            updateFinancialChart();
+        }
+
+        function updateFinancialChart() {
+            const ctx = document.getElementById('financialChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.financialChart) {
+                window.financialChart.destroy();
+            }
+
+            // Collect data from transactions
+            const events = new Set();
+            const incomeData = {};
+            const expenseData = {};
+
+            document.querySelectorAll('.event-transactions').forEach(eventSection => {
+                const eventName = eventSection.querySelector('h5').textContent;
+                events.add(eventName);
+                incomeData[eventName] = 0;
+                expenseData[eventName] = 0;
+
+                eventSection.querySelectorAll('.transaction-item').forEach(item => {
+                    const amount = parseInt(item.querySelector('.amount').textContent.replace(/[^0-9-]/g, ''));
+                    if (item.classList.contains('income')) {
+                        incomeData[eventName] += amount;
+                    } else {
+                        expenseData[eventName] += Math.abs(amount);
+                    }
+                });
+            });
+
+            // Create new chart
+            window.financialChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from(events),
+                    datasets: [{
+                        label: 'Income',
+                        data: Array.from(events).map(event => incomeData[event]),
+                        backgroundColor: '#059669',
+                        borderRadius: 4
+                    }, {
+                        label: 'Expenses',
+                        data: Array.from(events).map(event => expenseData[event]),
+                        backgroundColor: '#DC2626',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => '₹' + value
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        function filterTransactions() {
+            const eventFilter = document.getElementById('eventFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            document.querySelectorAll('.event-transactions').forEach(eventSection => {
+                const shouldShowEvent = eventFilter === 'all' || 
+                    eventSection.querySelector('h5').textContent.toLowerCase().includes(eventFilter);
+                
+                if (shouldShowEvent) {
+                    eventSection.style.display = 'block';
+                    eventSection.querySelectorAll('.transaction-item').forEach(item => {
+                        const shouldShowType = typeFilter === 'all' || 
+                            item.classList.contains(typeFilter);
+                        item.style.display = shouldShowType ? 'flex' : 'none';
+                    });
+                } else {
+                    eventSection.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize financial chart when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            updateFinancialChart();
+        });
+
+        // Enhanced Analytics Functions
+        function updateAnalytics(days) {
+            // Update active button
+            document.querySelectorAll('.date-range-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update charts with new data
+            updateUserGrowthChart(days);
+            updateEventParticipationChart(days);
+            updateRevenueChart(days);
+            updateClubActivityChart(days);
+
+            // Add animation to charts
+            document.querySelectorAll('.analytics-chart-container').forEach(container => {
+                container.style.animation = 'none';
+                container.offsetHeight; // Trigger reflow
+                container.style.animation = 'scaleIn 0.5s ease-out';
+            });
+        }
+
+        function filterAnalytics() {
+            const clubFilter = document.getElementById('clubFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const metricFilter = document.getElementById('metricFilter').value;
+
+            // Filter data based on selections
+            const filteredData = filterAnalyticsData(clubFilter, categoryFilter, metricFilter);
+
+            // Update charts with filtered data
+            updateChartsWithFilteredData(filteredData);
+
+            // Add animation to show filtering
+            document.querySelectorAll('.analytics-card').forEach(card => {
+                card.style.animation = 'none';
+                card.offsetHeight; // Trigger reflow
+                card.style.animation = 'fadeIn 0.5s ease-out';
+            });
+        }
+
+        function filterAnalyticsData(club, category, metric) {
+            // This would typically fetch data from your backend
+            // For now, we'll return mock data
+            return {
+                userGrowth: generateMockData(30),
+                eventParticipation: generateMockData(30),
+                revenue: generateMockData(30),
+                clubActivity: generateMockData(30)
+            };
+        }
+
+        function generateMockData(count) {
+            return Array.from({ length: count }, () => Math.floor(Math.random() * 100));
+        }
+
+        function updateChartsWithFilteredData(data) {
+            // Update each chart with the filtered data
+            updateUserGrowthChartData(data.userGrowth);
+            updateEventParticipationChartData(data.eventParticipation);
+            updateRevenueChartData(data.revenue);
+            updateClubActivityChartData(data.clubActivity);
+        }
+
+        function updateUserGrowthChart(days) {
+            const ctx = document.getElementById('userGrowthChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.userGrowthChart) {
+                window.userGrowthChart.destroy();
+            }
+
+            // Generate data based on days
+            const labels = generateDateLabels(days);
+            const data = generateMockData(days);
+
+            // Create new chart
+            window.userGrowthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'User Growth',
+                        data: data,
+                        borderColor: '#4F46E5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateEventParticipationChart(days) {
+            const ctx = document.getElementById('eventParticipationChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.eventParticipationChart) {
+                window.eventParticipationChart.destroy();
+            }
+
+            // Generate data based on days
+            const labels = generateDateLabels(days);
+            const data = generateMockData(days);
+
+            // Create new chart
+            window.eventParticipationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Event Participation',
+                        data: data,
+                        backgroundColor: '#059669',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateRevenueChart(days) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.revenueChart) {
+                window.revenueChart.destroy();
+            }
+
+            // Generate data based on days
+            const labels = generateDateLabels(days);
+            const incomeData = generateMockData(days).map(val => val * 100);
+            const expenseData = generateMockData(days).map(val => val * 50);
+
+            // Create new chart
+            window.revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Income',
+                        data: incomeData,
+                        borderColor: '#059669',
+                        backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Expenses',
+                        data: expenseData,
+                        borderColor: '#DC2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                callback: value => '₹' + value
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateClubActivityChart(days) {
+            const ctx = document.getElementById('clubActivityChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (window.clubActivityChart) {
+                window.clubActivityChart.destroy();
+            }
+
+            // Generate data based on days
+            const labels = ['Computer Science', 'Cultural', 'Debate', 'Photography'];
+            const data = labels.map(() => Math.floor(Math.random() * 100));
+
+            // Create new chart
+            window.clubActivityChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            '#4F46E5',
+                            '#059669',
+                            '#D97706',
+                            '#DC2626'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        }
+
+        function generateDateLabels(days) {
+            const labels = [];
+            const today = new Date();
+            
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+            }
+            
+            return labels;
+        }
+
+        // Initialize analytics when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize charts
+            updateAnalytics('7');
+            
+            // Add animation to analytics cards
+            document.querySelectorAll('.analytics-card').forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // Initialize analytics charts
+        function initializeAnalyticsCharts() {
+            // User Growth Chart
+            const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+            new Chart(userGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'New Users',
+                        data: [65, 78, 90, 120, 150, 180],
+                        borderColor: '#2196F3',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(33, 150, 243, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Event Participation Chart
+            const eventParticipationCtx = document.getElementById('eventParticipationChart').getContext('2d');
+            new Chart(eventParticipationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Technical', 'Cultural', 'Sports', 'Business', 'Other'],
+                    datasets: [{
+                        label: 'Participants',
+                        data: [120, 150, 80, 90, 60],
+                        backgroundColor: [
+                            '#2196F3',
+                            '#4CAF50',
+                            '#FFC107',
+                            '#9C27B0',
+                            '#FF5722'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [15000, 18000, 22000, 25000, 28000, 32000],
+                        borderColor: '#4CAF50',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Club Activity Chart
+            const clubActivityCtx = document.getElementById('clubActivityChart').getContext('2d');
+            new Chart(clubActivityCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Events', 'Meetings', 'Workshops', 'Other'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            '#2196F3',
+                            '#4CAF50',
+                            '#FFC107',
+                            '#9C27B0'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update analytics based on time range
+        function updateAnalytics() {
+            const timeRange = document.getElementById('analyticsTimeRange').value;
+            // Here you would typically fetch new data based on the time range
+            // and update the charts accordingly
+            console.log('Updating analytics for time range:', timeRange);
+        }
+
+        // Initialize charts when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAnalyticsCharts();
+        });
+
+        // Admin Access Panel Functions
+        function toggleAccessPanel() {
+            const content = document.getElementById('accessPanelContent');
+            content.classList.toggle('active');
+        }
+
+        function verifyAdminPassword() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'Shashank@5') {
+                document.getElementById('accessPanelContent').classList.add('active');
+                showNotification('Access granted', 'success');
+                // Add some sample users for demonstration
+                if (document.getElementById('usersTableBody').children.length === 0) {
+                    addSampleUsers();
+                }
+            } else {
+                showNotification('Invalid password', 'error');
+            }
+        }
+
+        function addSampleUsers() {
+            const sampleUsers = [
+                {type: 'club', id: 'club001', name: 'John Doe', email: 'john.doe@example.com'},
+                {type: 'faculty', id: 'faculty001', name: 'Dr. Jane Smith', email: 'jane.smith@example.com'},
+                {type: 'club', id: 'club002', name: 'Robert Johnson', email: 'robert@example.com'}
+            ];
+            
+            sampleUsers.forEach(user => addUserToTable(user));
+        }
+
+        function handleUserSubmit(event) {
+            event.preventDefault();
+            
+            const userData = {
+                type: document.getElementById('userType').value,
+                id: document.getElementById('userId').value,
+                password: document.getElementById('userPassword').value,
+                name: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value
+            };
+
+            // Add user to the table
+            addUserToTable(userData);
+            
+            // Clear form
+            event.target.reset();
+            
+            showNotification('User added successfully', 'success');
+            return false;
+        }
+
+        function addUserToTable(userData) {
+            const tbody = document.getElementById('usersTableBody');
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td><span class="user-type-badge ${userData.type}">${userData.type === 'club' ? 'Club Member' : 'Faculty'}</span></td>
+                <td>${userData.id}</td>
+                <td>${userData.name}</td>
+                <td>${userData.email}</td>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editUser('${userData.id}')">Edit</button>
+                    <button class="action-btn delete-btn" onclick="deleteUser('${userData.id}')">Delete</button>
+                </td>
+            `;
+            
+            tbody.appendChild(row);
+        }
+
+        function editUser(userId) {
+            // Implement edit functionality
+            showNotification('Edit functionality coming soon', 'info');
+        }
+
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                const row = event.target.closest('tr');
+                row.remove();
+                showNotification('User deleted successfully', 'success');
+            }
+        }
+    </script>
+</body>
+</html> 
